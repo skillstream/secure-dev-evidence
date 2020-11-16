@@ -1,0 +1,159 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
+
+name: Ruby
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches:
+      - master
+      - rc
+      - hotfix
+      - critical
+
+jobs:
+
+  audit:
+    name: 'Run Audits'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: 'Bundler Audit'
+        uses: andrewmcodes/bundler-audit-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+
+      - name: yarn Audit
+        run: bin/yarn-audit # TODO: try https://github.com/marketplace/actions/yarn-audit
+
+  brakeman:
+    name: 'Run Brakeman'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Brakeman
+        uses: devmasx/brakeman-linter-action@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+
+  linters:
+    name: 'Run linters'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install libcrack2-dev cracklib-runtime
+
+      - name: Install Ruby (& bundler)
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install dependencies via yarn
+        run: yarn install --frozen-lockfile
+
+      - name: Lint Actions
+        uses:  wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # linters
+          eslint: true
+          rubocop: true
+          rubocop_command_prefix: 'bundle exec'
+
+  tests:
+    name: 'Run tests'
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 6379 on service container to the host
+          - 6379:6379
+
+      postgres:
+        # Docker Hub image
+        image: postgres:9.6
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
+    env:
+      STAGE: test
+      RAILS_ENV: test
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install libcrack2-dev cracklib-runtime
+
+      - name: Install Ruby (& bundler)
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install dependencies via yarn
+        run: yarn install --frozen-lockfile
+
+      - name: Setup test environment
+        run: |
+          sudo sysctl fs.inotify.max_user_watches=524288 && sudo sysctl -p
+          cp config/database.yml.github-actions config/database.yml
+          bin/rails db:create
+          bin/rails db:environment:set
+          bin/rails db:test:prepare --trace
+
+      - name: Run tests
+        run: |
+          bin/rspec
+          bin/rspec --tag deprecated

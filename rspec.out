@@ -1,0 +1,101 @@
+$ bin/rspec spec/api/posting_api_spec.rb
+Running via Spring preloader in process 23945
+Run options:
+  include {:focus=>true}
+  exclude {:deprecated=>true}
+
+All examples were filtered out; ignoring {:focus=>true}
+
+Randomized with seed 50363
+
+Posting API
+  retrieve a posting
+    as suspended user
+      denies access
+    as invalid user
+      denies access
+    as valid user
+      returns posting details
+      requesting another client's posting
+        denies access
+      by ref
+        includes posting
+      requesting a non-existent posting
+        returns a Not Found error
+    without authentication headers
+      denies access
+  update a published posting
+    with a non-leaf org unit
+      returns a validation error
+    when changing job position
+      is prevented
+    with a nil location
+      returns a validation error
+    with an ITRIS HQ number
+      succeeds
+    when requesting valid changes
+      is successfully updated
+  cancel a posting
+    without a location
+      behaves like a cancellation
+        cancelling a posting
+          succeeds
+    when the posting has been filled
+      but there are no claims
+        behaves like a cancellation
+          cancelling a posting
+            succeeds
+      and a placement has been claimed against
+        returns a validation error
+    when the posting has not yet been filled
+      behaves like a cancellation
+        cancelling a posting
+          succeeds
+  retrieve posting updates
+    with invalid timestamps
+      returns a validation error
+    over more than 25 hours
+      returns a validation error
+    without any parameters
+      returns a validation error
+    with no updated_at_gteq timestamp
+      returns a validation error
+    over the last 5 minutes
+      returns all and only the expected updates
+  create a new posting
+    when posting is invalid
+      returns a validation error
+    when posting is valid
+      succeeds
+      without a location
+        succeeds
+  publish a posting
+    retrospectively
+      behaves like a publication
+        publishing a posting
+          succeeds
+      without a supplier id
+        returns a validation error
+      with an invalid supplier id
+        returns a Not Found error
+    before background jobs have run
+      behaves like a publication
+        publishing a posting
+          succeeds
+    with future shifts
+      behaves like a publication
+        publishing a posting
+          succeeds
+      prefilled
+        behaves like a publication
+          publishing a posting
+            succeeds
+        with no prefill reason
+          returns a validation error
+    without a location
+      returns a validation error
+
+Finished in 1 minute 11.91 seconds (files took 0.8456 seconds to load)
+32 examples, 0 failures
+
+Randomized with seed 50363
