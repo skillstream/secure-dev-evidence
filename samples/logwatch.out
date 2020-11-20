@@ -1,0 +1,128 @@
+################### Logwatch 7.3.6 (05/19/07) ####################
+        Processing Initiated: Sat Nov 21 03:22:10 2020
+        Date Range Processed: yesterday
+                              ( 2020-Nov-20 )
+                              Period is day.
+      Detail Level of Output: 0
+              Type of Output: unformatted
+           Logfiles for Host: portia
+  ##################################################################
+
+ --------------------- Postfix Begin ------------------------
+
+        2   Miscellaneous warnings
+
+   14.377M  Bytes accepted                        15,075,873
+   16.466M  Bytes delivered                       17,265,556
+ ========   ================================================
+
+     4478   Accepted                                 100.00%
+ --------   ------------------------------------------------
+     4478   Total                                    100.00%
+ ========   ================================================
+
+     4458   Connections made     
+        2   Connections lost     
+     4458   Disconnections       
+     4477   Removed from queue   
+        1   Delivered             
+     6151   Sent via SMTP         
+        1   Forwarded             
+        8   Deferred             
+       28   Deferrals             
+        4   Bounce (local)       
+       13   Bounce (remote)       
+       16   DSNs undeliverable   
+
+     1023   Connection failure (outbound)
+
+
+
+ ---------------------- Postfix End -------------------------
+
+
+ --------------------- SSHD Begin ------------------------
+
+
+ Disconnecting after too many authentication failures for user:
+    root : 2 Time(s)
+
+ Users logging in through sshd:
+    backup:
+       113.197.36.80 (charon3): 48 times
+       172.16.124.20 (sycorax): 48 times
+       89.151.101.81 (keaton): 24 times
+       89.151.101.96 (oberon): 24 times
+    sterladm:
+       203.24.3.81: 4 times
+       203.24.5.82: 2 times
+
+
+ Received disconnect:
+    11:  : 6 Time(s)
+    11: Bye Bye : 1072 Time(s)
+    11: Client disconnecting normally : 1 Time(s)
+    11: Normal Shutdown, Thank you for playing : 580 Time(s)
+    11: The user disconnected the application : 6 Time(s)
+    11: disconnected by user : 146 Time(s)
+
+ SFTP subsystem requests: 6 Time(s)
+
+ **Unmatched Entries**
+ reverse mapping checking getaddrinfo for taurus.papaq.org [205.185.123.173] failed - POSSIBLE BREAK-IN ATTEMPT! : 4 time(s)
+ reverse mapping checking getaddrinfo for 82.35.33.58.broad.xw.sh.dynamic.163data.com.cn [58.33.35.82] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 5.189.62.46-fttb.planeta.tc [5.189.62.46] failed - POSSIBLE BREAK-IN ATTEMPT! : 2 time(s)
+ reverse mapping checking getaddrinfo for dynamic.libertypr.net [70.45.133.188] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 179-228-230-69.user.vivozap.com.br [179.228.230.69] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 77.77.89.218.broad.ls.sc.dynamic.163data.com.cn [218.89.77.77] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for dsl-189-178-29-227-dyn.prod-infinitum.com.mx [189.178.29.227] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ Address 183.82.121.34 maps to broadband.actcorp.in, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for ataxa8881.example.com [185.103.109.114] failed - POSSIBLE BREAK-IN ATTEMPT! : 5 time(s)
+ fatal: no hostkey alg : 4 time(s)
+ reverse mapping checking getaddrinfo for ataxa8882.example.com [185.103.109.118] failed - POSSIBLE BREAK-IN ATTEMPT! : 5 time(s)
+ Address 176.114.199.56 maps to 176-114-199-56.an-net.ru, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for host-92-241-82-242-customer.wanex.net [92.241.82.242] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ Address 45.95.168.104 maps to maxko-hosting.com, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 7 time(s)
+ reverse mapping checking getaddrinfo for tgn.126.32.138.dts.mg [154.126.32.138] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for onlinetech.gq [142.93.62.240] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for customer-mzt-221-17.megared.net.mx [200.52.221.17] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ Protocol major versions differ for 139.162.247.102: SSH-2.0-OpenSSH_5.3 vs. SSH-1.5-Nmap-SSH1-Hostkey : 1 time(s)
+ Address 178.62.197.90 maps to digginberlin.com, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 235.37.79.222.broad.fz.fj.dynamic.163data.com.cn [222.79.37.235] failed - POSSIBLE BREAK-IN ATTEMPT! : 2 time(s)
+ reverse mapping checking getaddrinfo for hn.kd.ny.adsl [222.139.245.70] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ fatal: Write failed: Connection reset by peer : 1 time(s)
+ reverse mapping checking getaddrinfo for 45-10-24-218.beststandard2net.com [45.10.24.218] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for karinaziminacq.example.com [91.217.76.37] failed - POSSIBLE BREAK-IN ATTEMPT! : 2 time(s)
+ reverse mapping checking getaddrinfo for 250.10.62.202.iconpln.net.id [202.62.10.250] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for shitcointopia-grana.com.py-clima.grana.com.py [138.197.130.138] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ Address 178.128.243.225 maps to woo.resico.com, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 85.sub-56-133-103.natanetwork.id [103.133.56.85] failed - POSSIBLE BREAK-IN ATTEMPT! : 10 time(s)
+ reverse mapping checking getaddrinfo for webus.zarethernet.com [209.159.149.91] failed - POSSIBLE BREAK-IN ATTEMPT! : 18 time(s)
+ Address 209.141.33.40 maps to gamecrossing.net, but this does not map back to the address - POSSIBLE BREAK-IN ATTEMPT! : 7 time(s)
+ reverse mapping checking getaddrinfo for 181.217.215.139.adsl-pool.jlccptt.net.cn [139.215.217.181] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 51-15-181-38.rev.poneytelecom.eu [51.15.181.38] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for dsl-189-188-27-229-dyn.prod-infinitum.com.mx [189.188.27.229] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for reboot.hugedomains.org.uk [185.132.53.116] failed - POSSIBLE BREAK-IN ATTEMPT! : 57 time(s)
+ reverse mapping checking getaddrinfo for 63.140.20.250.ifibertv.com [63.140.20.250] failed - POSSIBLE BREAK-IN ATTEMPT! : 180 time(s)
+ reverse mapping checking getaddrinfo for 93-76-71-130.zap.volia.net [93.76.71.130] failed - POSSIBLE BREAK-IN ATTEMPT! : 2 time(s)
+ reverse mapping checking getaddrinfo for ataxa888.example.com [193.109.78.254] failed - POSSIBLE BREAK-IN ATTEMPT! : 5 time(s)
+ reverse mapping checking getaddrinfo for 212.174.201.38.static.ttnet.com.tr [212.174.201.38] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+ reverse mapping checking getaddrinfo for 189-112-089-017.static.ctbctelecom.com.br [189.112.89.17] failed - POSSIBLE BREAK-IN ATTEMPT! : 1 time(s)
+
+ ---------------------- SSHD End -------------------------
+
+
+ --------------------- Disk Space Begin ------------------------
+
+ Filesystem            Size  Used Avail Use% Mounted on
+ /dev/mapper/vg_portia-lv_root
+                        50G   13G   34G  28% /
+ /dev/sda1             477M  153M  299M  34% /boot
+ /dev/mapper/vg_portia-lv_home
+                       189G  125G   55G  70% /home
+
+
+ ---------------------- Disk Space End -------------------------
+
+
+ ###################### Logwatch End #########################

@@ -1,0 +1,81 @@
+{
+  "run_list": [
+    "initalise::package_update",
+    "initalise::locale",
+    "initalise::tools",
+    "initalise::monit",
+    "initalise::deployers",
+    "rack",
+    "persistence",
+    "reporting",
+    "redisio",
+    "redisio::enable",
+    "postfix",
+    "memcached::default",
+    "clamav"
+  ],
+  "initalise": {
+    "deploy_users": [
+      {"user": "vagrant", "group": "vagrant"}
+    ],
+    "unauthenticated_sudoers": ["vagrant"]
+  },
+  "rack": {
+    "deploy_user": "vagrant",
+    "deploy_group": "vagrant"
+  },
+  "ruby_build": {
+    "git_ref": "v20190828",
+    "upgrade": "sync"
+  },
+  "rbenv": {
+    "user_installs": [
+      {
+        "user": "vagrant",
+        "group": "vagrant",
+        "rubies": [{"name": "2.6.4", "environment": {"RUBY_CONFIGURE_OPTS": "--with-jemalloc"}}],
+        "global": "2.6.4",
+        "gems": {
+          "2.6.4": [
+            {"name": "bundler", "version": "1.17.3"}
+          ]
+        }
+      }
+    ]
+  },
+  "nginx": {
+    "install_method": "package",
+    "version": "1.6.2",
+    "client_max_body_size": "10m"
+  },
+  "postgresql": {
+    "version": "9.6",
+    "config": {
+      "listen_addresses": "*"
+    },
+    "pg_hba": [
+      {"type": "host", "db": "all", "user": "all", "addr": "localhost", "method": "md5"},
+      {
+        "comment": "# VirtualBox: allow access from the host OS",
+        "type": "host", "db": "all", "user": "all", "addr": "10.0.2.2/32", "method": "md5"
+      }
+    ],
+    "password": {
+      "postgres": "87233e8c4a7c88e2bf32ad754c9b5c7f"
+    }
+  },
+  "postfix": {"main": {"relayhost": "10.0.2.2:1025"}},
+  "redisio": {
+    "version": "3.2.3", "safe_install": false,
+    "servers": [{"port": 6379, "protected_mode": "no"}]
+  },
+  "memcached": {"memory": 128},
+  "clamav": {
+    "version": "latest",
+    "clamd": {
+      "enabled": true,
+      "config": { "local_socket": "/tmp/clamd.sock"}
+    },
+    "freshclam": { "enabled": true }
+  }
+}

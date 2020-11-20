@@ -1,0 +1,14 @@
+ssl_session_cache   shared:SSL:10m;
+ssl_session_timeout 10m;
+<% if node["nginx"]["ssl_certificate"] -%>
+ssl_certificate     <%= node["nginx"]["ssl_certificate"] %>;
+ssl_certificate_key <%= node["nginx"]["ssl_certificate_key"] %>;
+<% end -%>
+<% if node["nginx"]["ssl_dhparam"] -%>
+ssl_dhparam         <%= node["nginx"]["ssl_dhparam"] %>;
+<% end -%>
+
+<%# Hardening per https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/#next-steps %>
+ssl_protocols TLSv1.2;
+ssl_prefer_server_ciphers off;
+ssl_ciphers ECDH+AESGCM:ECDH+CHACHA20:ECDH+AES256:ECDH+AES128:!aNULL:!SHA1:!AESCCM:!RSA;
