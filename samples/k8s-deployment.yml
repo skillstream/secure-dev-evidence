@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: puma
+  labels:
+    component: app-server
+spec:
+  replicas: 3 # do not set lower than 2 otherwise pod disruption budget will prevent maintenance
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      component: app-server
+  template:
+    metadata:
+      labels:
+        component: app-server
+    spec:
+      containers:
+      - name: puma
+        image: skillstream/ssnext:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 400Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+        startupProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          periodSeconds: 5
+          failureThreshold: 12
+        env:
+        - name: RAILS_ENV
+          value: production
+        - name: RUBY_YJIT_ENABLE
+          value: "1"
+        - name: RAILS_MASTER_KEY
+          valueFrom: {secretKeyRef: {name: secrets, key: rails-master-key}}
+        - name: PGHOST
+          valueFrom: {secretKeyRef: {name: hippo-pguser-ssnext, key: host}}
+        - name: PGHOST_REPLICA
+          valueFrom: {configMapKeyRef: {name: config, key: replica-host, optional: true}}
+        - name: PGPORT
+          valueFrom: {secretKeyRef: {name: hippo-pguser-ssnext, key: port}}
+        - name: PGDATABASE
+          valueFrom: {secretKeyRef: {name: hippo-pguser-ssnext, key: dbname}}
+        - name: PGUSER
+          valueFrom: {secretKeyRef: {name: hippo-pguser-ssnext, key: user}}
+        - name: PGPASSWORD
+          valueFrom: {secretKeyRef: {name: hippo-pguser-ssnext, key: password}}
+        - name: RAILS_SERVE_STATIC_FILES
+          value: "true"
+        - name: STAGE
+          valueFrom: {configMapKeyRef: {name: config, key: stage}}
+        - name: FQDN
+          valueFrom: {configMapKeyRef: {name: config, key: fqdn}}
+        - name: REDIS
+          valueFrom: {configMapKeyRef: {name: config, key: redis}}
+        - name: MEMCACHED_HOSTS
+          valueFrom: {configMapKeyRef: {name: config, key: memcached-hosts}}
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom: {secretKeyRef: {name: secrets, key: aws-access-key-id}}
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: {secretKeyRef: {name: secrets, key: aws-secret-access-key}}
+        - name: AWS_REGION
+          valueFrom: {configMapKeyRef: {name: config, key: aws-region}}
+        - name: AWS_BUCKET
+          valueFrom: {configMapKeyRef: {name: config, key: aws-bucket, optional: true}}
+        - name: NEW_RELIC_MONITOR_MODE
+          valueFrom: {configMapKeyRef: {name: config, key: new-relic-monitor-mode, optional: true}}
+        - name: NEW_RELIC_LICENSE
+          valueFrom: {secretKeyRef: {name: secrets, key: new-relic-license, optional: true}}
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: puma-pdb
+spec:
+  minAvailable: 1 # prevent maintenance from taking app completely offline
+  selector:
+    matchLabels:
+      component: app-server

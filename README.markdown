@@ -43,9 +43,14 @@ These are the main tools we use for periodic review of application security:
 
 #### Configuration
 
-We manage the nodes hosting our applications using [Chef](https://www.chef.io/products/chef-infrastructure-management). The provisioning and configuration of each node (where a node is a VM or dedicated server) is defined in our 'chef kitchen' repo, version-tracked and change-managed using git, GitHub and Jira.
+For our cloud-native environments, we deploy [Docker](https://www.docker.com/) containers to [Kubernetes](https://kubernetes.io/) clusters.
+
+For classic environments, we manage the nodes hosting our applications using [Chef](https://www.chef.io/products/chef-infrastructure-management). The provisioning and configuration of each node (where a node is a VM or dedicated server) is defined in our 'chef kitchen' repo, version-tracked and change-managed using git, GitHub and Jira.
 
 ##### Evidence
+* An application [Dockerfile](samples/Dockerfile).
+* A kubernetes application [deployment spec](samples/k8s-deployment.yml).
+* [Screenshot](screenshots/lens-ssnext-qa.png) of [Lens](https://k8slens.dev/) IDE showing a running QA staging environment.
 * A [node definition](samples/sample_chef_node.json) for a disposable VM used during development for testing deployment configurations.
 * A [TLS certificate](screenshots/twg_mpg_certificate.png) installed by [certbot](https://certbot.eff.org/).
 * The [Nginx SSL (TLS) config](samples/chef_nginx_ssl.conf.erb).
@@ -61,6 +66,9 @@ Our live monitoring solution is an in-house tool we call smon. It was built as a
 
 In addition to smon, we also run [Logwatch](https://sourceforge.net/projects/logwatch/) on each linux node (evidence: [sample output from Logwatch](samples/logwatch.out)). Using collectd to aggregate the same data as Logwatch is on the roadmap for smon.
 
+We additionally have event logging in our Akamai (formerly Linode) infrastructure management console.
+
 ##### Evidence
 * Here are [some screenshots of smon](screenshots/smon.markdown).
+* [Screenshot of Akamai event log](screenshots/akamai_event_log.png)
 
